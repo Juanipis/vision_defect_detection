@@ -21,11 +21,11 @@ Sistema completo para identificar piezas metálicas **BUENAS** o **MALAS** a par
 ```mermaid
 flowchart LR
     A[Frames etiquetados + metadata] --> B[Extractor de features<br>vision_defect_detection.features]
-    B -->|Tabla csv| C[DataFrame de entrenamiento<br>+ caché en artifacts/cache]
+    B -->|Tabla csv| C[DataFrame de entrenamiento<br>y caché en artifacts/cache]
     C --> D[Entrenamiento por grupo<br>HistGradientBoosting / IsolationForest]
     D --> E[Artefactos .joblib + report.json]
     E --> F[Detector unificado<br>vision_defect_detection.inference.DefectDetector]
-    F --> G[APIs (predict_image)<br>+ UI Tkinter + servicios]
+    F --> G[APIs (predict_image) y UI Tkinter/servicios]
 ```
 
 ## Extracción de características
@@ -103,6 +103,15 @@ stateDiagram-v2
     HistGBDT --> Artefacto
     IsolationForest --> Artefacto
 ```
+
+### ¿Dónde entra el machine learning?
+
+- Cada artefacto `.joblib` es un modelo de **aprendizaje automático** entrenado con los features numéricos descritos arriba. No son reglas fijas: `HistGradientBoostingClassifier` aprende umbrales y combinaciones no lineales directamente de los ejemplos BUENO/MALO para maximizar la separación entre clases.
+- En grupos con solo BUENOS, se usa **Isolation Forest**, un algoritmo de detección de anomalías que construye múltiples árboles aleatorios y marca como defectuoso a cualquier vector de features que requiera pocos splits para aislarse (es decir, que se ve muy distinto al resto).
+- Durante la inferencia (`DefectDetector.predict_from_features`) se arma el vector en el mismo orden de entrenamiento y se pasa al estimador correspondiente. El resultado trae:
+  - `score`: probabilidad de `MALO` (modelos supervisados) o score de anomalía (Isolation Forest).
+  - `confidence`: versión normalizada del score para interpretar la certeza del dictamen.
+  - `label`: se calcula aplicando el **umbral aprendido** (0.5 para HistGB y percentil para Isolation Forest). Por lo tanto, **la decisión final siempre proviene del modelo de ML** que corresponde a la pieza/tamaño solicitado.
 
 ## Entrenamiento paso a paso
 
@@ -192,6 +201,28 @@ flowchart TD
     SC -->|no supervisado| C2[IsolationForest]
     C1 --> R[Post-procesado<br>label + confianza]
     C2 --> R
+```
+
+### Árbol de decisiones completo
+
+```mermaid
+flowchart TD
+    A[Imagen + pieza + tamaño] --> B[Extraer features normalizados]
+    B --> C{¿Existe modelo para pieza-tamaño?}
+    C -- No --> X[Error: modelo inexistente]
+    C -- Sí --> D{Tipo de modelo}
+    D -- HistGradientBoosting --> E[Calcular probabilidad clase MALO]
+    E --> F{¿prob >= 0.5?}
+    F -- Sí --> G[MALO<br>confidence = prob]
+    F -- No --> H[BUENO<br>confidence = 1 - prob]
+    D -- IsolationForest --> I[Calcular score de anomalía]
+    I --> J{¿score < threshold?}
+    J -- Sí --> K[MALO<br>confidence = sigmoide(score-threshold)]
+    J -- No --> L[BUENO<br>confidence = sigmoide(threshold-score)]
+    G --> M[Reporte final con métricas]
+    H --> M
+    K --> M
+    L --> M
 ```
 
 ### Aplicación Tkinter de referencia
