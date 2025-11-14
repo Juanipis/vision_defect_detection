@@ -1,0 +1,444 @@
+[
+  {
+    "piece_type": "anillo",
+    "size": "T1",
+    "model_type": "supervised",
+    "n_features": 21,
+    "metrics": {
+      "classification_report": {
+        "0": {
+          "precision": 0.9933333333333333,
+          "recall": 1.0,
+          "f1-score": 0.9966555183946488,
+          "support": 149.0
+        },
+        "1": {
+          "precision": 1.0,
+          "recall": 0.9846153846153847,
+          "f1-score": 0.9922480620155039,
+          "support": 65.0
+        },
+        "accuracy": 0.9953271028037384,
+        "macro avg": {
+          "precision": 0.9966666666666666,
+          "recall": 0.9923076923076923,
+          "f1-score": 0.9944517902050763,
+          "support": 214.0
+        },
+        "weighted avg": {
+          "precision": 0.9953582554517134,
+          "recall": 0.9953271028037384,
+          "f1-score": 0.9953168050084599,
+          "support": 214.0
+        }
+      },
+      "confusion_matrix": [
+        [
+          149,
+          0
+        ],
+        [
+          1,
+          64
+        ]
+      ],
+      "roc_auc": 1.0,
+      "n_train": 854,
+      "n_test": 214,
+      "positives": 326,
+      "negatives": 742
+    }
+  },
+  {
+    "piece_type": "anillo",
+    "size": "T2",
+    "model_type": "supervised",
+    "n_features": 21,
+    "metrics": {
+      "classification_report": {
+        "0": {
+          "precision": 1.0,
+          "recall": 0.8852459016393442,
+          "f1-score": 0.9391304347826087,
+          "support": 61.0
+        },
+        "1": {
+          "precision": 0.8852459016393442,
+          "recall": 1.0,
+          "f1-score": 0.9391304347826087,
+          "support": 54.0
+        },
+        "accuracy": 0.9391304347826087,
+        "macro avg": {
+          "precision": 0.9426229508196722,
+          "recall": 0.9426229508196722,
+          "f1-score": 0.9391304347826087,
+          "support": 115.0
+        },
+        "weighted avg": {
+          "precision": 0.9461154668567355,
+          "recall": 0.9391304347826087,
+          "f1-score": 0.9391304347826087,
+          "support": 115.0
+        }
+      },
+      "confusion_matrix": [
+        [
+          54,
+          7
+        ],
+        [
+          0,
+          54
+        ]
+      ],
+      "roc_auc": 0.9948391013964785,
+      "n_train": 457,
+      "n_test": 115,
+      "positives": 267,
+      "negatives": 305
+    }
+  },
+  {
+    "piece_type": "anillo",
+    "size": "T3",
+    "model_type": "supervised",
+    "n_features": 21,
+    "metrics": {
+      "classification_report": {
+        "0": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 56.0
+        },
+        "1": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 48.0
+        },
+        "accuracy": 1.0,
+        "macro avg": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 104.0
+        },
+        "weighted avg": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 104.0
+        }
+      },
+      "confusion_matrix": [
+        [
+          56,
+          0
+        ],
+        [
+          0,
+          48
+        ]
+      ],
+      "roc_auc": 1.0,
+      "n_train": 416,
+      "n_test": 104,
+      "positives": 241,
+      "negatives": 279
+    }
+  },
+  {
+    "piece_type": "dobleanillo",
+    "size": "T1",
+    "model_type": "supervised",
+    "n_features": 21,
+    "metrics": {
+      "classification_report": {
+        "0": {
+          "precision": 1.0,
+          "recall": 0.984375,
+          "f1-score": 0.9921259842519685,
+          "support": 64.0
+        },
+        "1": {
+          "precision": 0.9850746268656716,
+          "recall": 1.0,
+          "f1-score": 0.9924812030075187,
+          "support": 66.0
+        },
+        "accuracy": 0.9923076923076923,
+        "macro avg": {
+          "precision": 0.9925373134328358,
+          "recall": 0.9921875,
+          "f1-score": 0.9923035936297436,
+          "support": 130.0
+        },
+        "weighted avg": {
+          "precision": 0.9924225028702641,
+          "recall": 0.9923076923076923,
+          "f1-score": 0.9923063260817094,
+          "support": 130.0
+        }
+      },
+      "confusion_matrix": [
+        [
+          63,
+          1
+        ],
+        [
+          0,
+          66
+        ]
+      ],
+      "roc_auc": 1.0,
+      "n_train": 520,
+      "n_test": 130,
+      "positives": 330,
+      "negatives": 320
+    }
+  },
+  {
+    "piece_type": "dobleanillo",
+    "size": "T2",
+    "model_type": "isolation_forest",
+    "n_features": 21,
+    "metrics": {
+      "score_mean": 0.08688488001771141,
+      "score_std": 0.0524646400137848,
+      "threshold": -5.481997234629832e-17,
+      "n_train": 262,
+      "positives": 0,
+      "negatives": 262
+    }
+  },
+  {
+    "piece_type": "dobleanillo",
+    "size": "T3",
+    "model_type": "supervised",
+    "n_features": 21,
+    "metrics": {
+      "classification_report": {
+        "0": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 43.0
+        },
+        "1": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 52.0
+        },
+        "accuracy": 1.0,
+        "macro avg": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 95.0
+        },
+        "weighted avg": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 95.0
+        }
+      },
+      "confusion_matrix": [
+        [
+          43,
+          0
+        ],
+        [
+          0,
+          52
+        ]
+      ],
+      "roc_auc": 1.0,
+      "n_train": 377,
+      "n_test": 95,
+      "positives": 257,
+      "negatives": 215
+    }
+  },
+  {
+    "piece_type": "dobleanillo",
+    "size": "T4",
+    "model_type": "supervised",
+    "n_features": 21,
+    "metrics": {
+      "classification_report": {
+        "0": {
+          "precision": 1.0,
+          "recall": 0.9375,
+          "f1-score": 0.967741935483871,
+          "support": 64.0
+        },
+        "1": {
+          "precision": 0.9183673469387755,
+          "recall": 1.0,
+          "f1-score": 0.9574468085106383,
+          "support": 45.0
+        },
+        "accuracy": 0.963302752293578,
+        "macro avg": {
+          "precision": 0.9591836734693877,
+          "recall": 0.96875,
+          "f1-score": 0.9625943719972547,
+          "support": 109.0
+        },
+        "weighted avg": {
+          "precision": 0.9662984459838982,
+          "recall": 0.963302752293578,
+          "f1-score": 0.9634916537059309,
+          "support": 109.0
+        }
+      },
+      "confusion_matrix": [
+        [
+          60,
+          4
+        ],
+        [
+          0,
+          45
+        ]
+      ],
+      "roc_auc": 0.9951388888888889,
+      "n_train": 432,
+      "n_test": 109,
+      "positives": 224,
+      "negatives": 317
+    }
+  },
+  {
+    "piece_type": "gancho",
+    "size": "T2",
+    "model_type": "supervised",
+    "n_features": 21,
+    "metrics": {
+      "classification_report": {
+        "0": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 192.0
+        },
+        "1": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 49.0
+        },
+        "accuracy": 1.0,
+        "macro avg": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 241.0
+        },
+        "weighted avg": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 241.0
+        }
+      },
+      "confusion_matrix": [
+        [
+          192,
+          0
+        ],
+        [
+          0,
+          49
+        ]
+      ],
+      "roc_auc": 1.0,
+      "n_train": 961,
+      "n_test": 241,
+      "positives": 242,
+      "negatives": 960
+    }
+  },
+  {
+    "piece_type": "gancho",
+    "size": "T3",
+    "model_type": "supervised",
+    "n_features": 21,
+    "metrics": {
+      "classification_report": {
+        "0": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 144.0
+        },
+        "1": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 56.0
+        },
+        "accuracy": 1.0,
+        "macro avg": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 200.0
+        },
+        "weighted avg": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 200.0
+        }
+      },
+      "confusion_matrix": [
+        [
+          144,
+          0
+        ],
+        [
+          0,
+          56
+        ]
+      ],
+      "roc_auc": 1.0,
+      "n_train": 797,
+      "n_test": 200,
+      "positives": 279,
+      "negatives": 718
+    }
+  },
+  {
+    "piece_type": "gancho",
+    "size": "T4",
+    "model_type": "isolation_forest",
+    "n_features": 21,
+    "metrics": {
+      "score_mean": 0.07922905860511979,
+      "score_std": 0.04161243316287582,
+      "threshold": 4.85722573273506e-17,
+      "n_train": 138,
+      "positives": 0,
+      "negatives": 138
+    }
+  },
+  {
+    "piece_type": "ocho",
+    "size": "T1",
+    "model_type": "isolation_forest",
+    "n_features": 21,
+    "metrics": {
+      "score_mean": 0.0790019452022116,
+      "score_std": 0.03782036392262697,
+      "threshold": 0.0,
+      "n_train": 1288,
+      "positives": 0,
+      "negatives": 1288
+    }
+  }
+]
