@@ -108,10 +108,12 @@ stateDiagram-v2
 
 - Cada artefacto `.joblib` es un modelo de **aprendizaje automático** entrenado con los features numéricos descritos arriba. No son reglas fijas: `HistGradientBoostingClassifier` aprende umbrales y combinaciones no lineales directamente de los ejemplos BUENO/MALO para maximizar la separación entre clases.
 - En grupos con solo BUENOS, se usa **Isolation Forest**, un algoritmo de detección de anomalías que construye múltiples árboles aleatorios y marca como defectuoso a cualquier vector de features que requiera pocos splits para aislarse (es decir, que se ve muy distinto al resto).
+- El umbral (`threshold`) del Isolation Forest se define durante el entrenamiento tomando el percentil `anomaly_contamination` de los scores (por defecto 0.05). Ese valor se serializa junto al modelo y se reusa en producción: si el score del frame cae por debajo del percentil, se clasifica como MALO.
 - Durante la inferencia (`DefectDetector.predict_from_features`) se arma el vector en el mismo orden de entrenamiento y se pasa al estimador correspondiente. El resultado trae:
   - `score`: probabilidad de `MALO` (modelos supervisados) o score de anomalía (Isolation Forest).
   - `confidence`: versión normalizada del score para interpretar la certeza del dictamen.
   - `label`: se calcula aplicando el **umbral aprendido** (0.5 para HistGB y percentil para Isolation Forest). Por lo tanto, **la decisión final siempre proviene del modelo de ML** que corresponde a la pieza/tamaño solicitado.
+- No existe un ensamble entre ambos métodos: cada grupo solo tiene un modelo (supervisado o no supervisado según sus datos). La selección ocurre antes de inferir y no se mezclan sus resultados.
 
 ## Entrenamiento paso a paso
 
@@ -210,12 +212,12 @@ flowchart TD
     A[Imagen + pieza + tamaño] --> B[Extraer features normalizados]
     B --> C{¿Existe modelo para pieza-tamaño?}
     C -- No --> X[Error: modelo inexistente]
-    C -- Sí --> D{Tipo de modelo}
-    D -- HistGradientBoosting --> E[Calcular probabilidad clase MALO]
+    C -- Sí --> D{Tipo asignado al grupo}
+    D -- Grupo con BUENO y MALO --> E[HistGradientBoosting<br/>calcula probabilidad MALO]
     E --> F{probabilidad >= 0.5?}
     F -- Sí --> G[MALO<br/>confidence = prob]
     F -- No --> H[BUENO<br/>confidence = 1 - prob]
-    D -- IsolationForest --> I[Calcular score de anomalía]
+    D -- Solo BUENOS etiquetados --> I[IsolationForest<br/>calcula score de anomalía]
     I --> J{score &lt; threshold?}
     J -- Sí --> K[MALO<br/>confidence = sigmoide score menos threshold]
     J -- No --> L[BUENO<br/>confidence = sigmoide threshold menos score]
@@ -246,6 +248,8 @@ flowchart TD
 - **Segmentación robusta pero simple**: umbral + morfología evita depender de anotaciones de máscara; cuando existen máscaras de referencia se puede forzar su uso con `--use-reference-mask`.
 - **Modo híbrido supervisado/no supervisado**: no todas las piezas defectuosas están documentadas; Isolation Forest permite seguir detectando outliers y se calibra con scores históricos.
 - **Artefactos auto descriptivos**: cada `.joblib` lleva metadata (`feature_names`, `metrics`) para auditar versiones y replicar experimentos.
+- **Umbral en Isolation Forest**: durante el entrenamiento se calculan los scores del bosque y se fija el `threshold` en el percentil definido por `anomaly_contamination` (5% por defecto). Todo nuevo score inferior a ese valor se marca como MALO; el propio número queda guardado en el artefacto y se reutiliza en inferencia.
+- **Un solo modelo por grupo**: nunca se combina el resultado de ambos métodos. Si un grupo tiene ejemplos MALO se entrena únicamente `HistGradientBoostingClassifier`; si no los tiene, sólo `IsolationForest`. En inferencia se selecciona ese artefacto (línea `DefectDetector.predict_from_features`) y se decide con su propia métrica (probabilidad ≥0.5 o score < threshold).
 
 ## Próximos pasos sugeridos
 
