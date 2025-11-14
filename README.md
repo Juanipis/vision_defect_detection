@@ -212,13 +212,13 @@ flowchart TD
     C -- No --> X[Error: modelo inexistente]
     C -- Sí --> D{Tipo de modelo}
     D -- HistGradientBoosting --> E[Calcular probabilidad clase MALO]
-    E --> F{¿prob >= 0.5?}
-    F -- Sí --> G[MALO<br>confidence = prob]
-    F -- No --> H[BUENO<br>confidence = 1 - prob]
+    E --> F{probabilidad >= 0.5?}
+    F -- Sí --> G[MALO<br/>confidence = prob]
+    F -- No --> H[BUENO<br/>confidence = 1 - prob]
     D -- IsolationForest --> I[Calcular score de anomalía]
-    I --> J{¿score < threshold?}
-    J -- Sí --> K[MALO<br>confidence = sigmoide(score - threshold)]
-    J -- No --> L[BUENO<br>confidence = sigmoide(threshold - score)]
+    I --> J{score &lt; threshold?}
+    J -- Sí --> K[MALO<br/>confidence = sigmoide score menos threshold]
+    J -- No --> L[BUENO<br/>confidence = sigmoide threshold menos score]
     G --> M[Reporte final con métricas]
     H --> M
     K --> M
