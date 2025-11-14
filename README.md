@@ -25,7 +25,7 @@ flowchart LR
     C --> D[Entrenamiento por grupo<br>HistGradientBoosting / IsolationForest]
     D --> E[Artefactos .joblib + report.json]
     E --> F[Detector unificado<br>vision_defect_detection.inference.DefectDetector]
-    F --> G[APIs (predict_image) y UI Tkinter/servicios]
+    F --> G[APIs predict_image y UI Tkinter-servicios]
 ```
 
 ## Extracción de características
@@ -217,8 +217,8 @@ flowchart TD
     F -- No --> H[BUENO<br>confidence = 1 - prob]
     D -- IsolationForest --> I[Calcular score de anomalía]
     I --> J{¿score < threshold?}
-    J -- Sí --> K[MALO<br>confidence = sigmoide(score-threshold)]
-    J -- No --> L[BUENO<br>confidence = sigmoide(threshold-score)]
+    J -- Sí --> K[MALO<br>confidence = sigmoide(score - threshold)]
+    J -- No --> L[BUENO<br>confidence = sigmoide(threshold - score)]
     G --> M[Reporte final con métricas]
     H --> M
     K --> M
